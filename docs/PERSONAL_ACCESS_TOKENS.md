@@ -142,6 +142,56 @@ Atualmente, os tokens não expiram automaticamente. Se precisar renovar:
 2. Crie um novo token
 3. Atualize a configuração no Windsurf
 
+## Para Desenvolvedores
+
+### Implementar Autenticação com API Key
+
+Se você está desenvolvendo um novo endpoint que deve aceitar autenticação via API key, use a função helper `validateApiKey`:
+
+```typescript
+import { NextResponse, type NextRequest } from 'next/server';
+import { validateApiKey } from '@/lib/auth';
+
+export async function GET(request: NextRequest) {
+    // Validate the API key from Authorization header
+    const authResult = await validateApiKey(request);
+
+    if (!authResult.isValid) {
+        return NextResponse.json(
+            { error: authResult.error || 'Unauthorized' }, 
+            { status: 401 }
+        );
+    }
+
+    // Access companyId and userId from the auth result
+    const { companyId, userId } = authResult;
+
+    // Your endpoint logic here
+    // userId will be defined for personal tokens, null for company tokens
+    
+    return NextResponse.json({ success: true });
+}
+```
+
+### Verificar um Token
+
+Use o endpoint de verificação para testar se um token é válido:
+
+```bash
+curl -H "Authorization: Bearer zap_sk_your_token_here" \
+     https://master.sendzap-ia.com/api/v1/auth/verify-token
+```
+
+Resposta de sucesso:
+```json
+{
+  "valid": true,
+  "companyId": "abc-123",
+  "userId": "user-456",
+  "type": "personal"
+}
+```
+
 ## Suporte
 
 Se encontrar problemas ao usar tokens pessoais:
@@ -155,3 +205,5 @@ Se encontrar problemas ao usar tokens pessoais:
 - Adicionado suporte para tokens pessoais
 - Distinguir visualmente tokens pessoais vs. empresa
 - Autenticação via header Authorization
+- Endpoint de verificação de token (/api/v1/auth/verify-token)
+- Helper function validateApiKey para facilitar implementação em novos endpoints
