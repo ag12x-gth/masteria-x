@@ -41,8 +41,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { MoreHorizontal, PlusCircle, Trash2, Copy, Check, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { MoreHorizontal, PlusCircle, Trash2, Copy, Check, Eye, EyeOff, Loader2, User, Building2 } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import type { ApiKey } from '@/lib/types';
 
@@ -51,6 +52,7 @@ export function ApiKeysManager() {
   const [keys, setKeys] = useState<ApiKey[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newKeyName, setNewKeyName] = useState('');
+  const [isPersonal, setIsPersonal] = useState(false);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isKeyVisible, setIsKeyVisible] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -84,7 +86,7 @@ export function ApiKeysManager() {
       const response = await fetch('/api/v1/api-keys', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newKeyName }),
+        body: JSON.stringify({ name: newKeyName, isPersonal }),
       });
 
       if (!response.ok) {
@@ -119,6 +121,7 @@ export function ApiKeysManager() {
   const handleCloseGenerateModal = () => {
     setIsModalOpen(false);
     setNewKeyName('');
+    setIsPersonal(false);
     setGeneratedKey(null);
     setIsKeyVisible(false);
     setIsCopied(false);
@@ -191,6 +194,22 @@ export function ApiKeysManager() {
                                     required 
                                 />
                             </div>
+                            <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                    id="is-personal"
+                                    checked={isPersonal}
+                                    onCheckedChange={(checked) => setIsPersonal(checked as boolean)}
+                                />
+                                <Label htmlFor="is-personal" className="text-sm font-normal cursor-pointer">
+                                    Token pessoal (associado ao seu utilizador)
+                                </Label>
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                {isPersonal 
+                                    ? 'Este token terá acesso apenas aos recursos associados ao seu utilizador.'
+                                    : 'Este token terá acesso a todos os recursos da empresa.'
+                                }
+                            </p>
                         </div>
                         <DialogFooter>
                              <Button type="button" variant="secondary" onClick={handleCloseGenerateModal}>Cancelar</Button>
@@ -212,6 +231,7 @@ export function ApiKeysManager() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Nome</TableHead>
+                  <TableHead>Tipo</TableHead>
                   <TableHead>Chave</TableHead>
                   <TableHead>Data de Criação</TableHead>
                   <TableHead className="text-right">Ações</TableHead>
@@ -220,13 +240,13 @@ export function ApiKeysManager() {
               <TableBody>
                 {loading ? (
                   <TableRow>
-                    <TableCell colSpan={4} className="h-24 text-center">
+                    <TableCell colSpan={5} className="h-24 text-center">
                       <Loader2 className="mx-auto h-6 w-6 animate-spin" />
                     </TableCell>
                   </TableRow>
                 ) : keys.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={4} className="h-24 text-center">
+                    <TableCell colSpan={5} className="h-24 text-center">
                       Nenhuma chave de API encontrada.
                     </TableCell>
                   </TableRow>
@@ -234,6 +254,21 @@ export function ApiKeysManager() {
                   keys.map((key) => (
                     <TableRow key={key.id}>
                       <TableCell className="font-medium">{key.name}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          {(key as any).isPersonal ? (
+                            <>
+                              <User className="h-4 w-4 text-blue-500" />
+                              <span className="text-sm text-muted-foreground">Pessoal</span>
+                            </>
+                          ) : (
+                            <>
+                              <Building2 className="h-4 w-4 text-purple-500" />
+                              <span className="text-sm text-muted-foreground">Empresa</span>
+                            </>
+                          )}
+                        </div>
+                      </TableCell>
                       <TableCell className="font-mono text-xs">{key.key}</TableCell>
                       <TableCell>{key.createdAt ? new Date(key.createdAt).toLocaleDateString('pt-BR') : '-'}</TableCell>
                       <TableCell className="text-right">

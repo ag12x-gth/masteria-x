@@ -113,6 +113,7 @@ import {
   export const apiKeys = pgTable('api_keys', {
     id: text('id').primaryKey().default(sql`gen_random_uuid()`),
     companyId: text('company_id').references(() => companies.id).notNull(),
+    userId: text('user_id').references(() => users.id, { onDelete: 'cascade' }),
     key: text('key').notNull().unique(),
     name: text('name').notNull(),
     createdAt: timestamp('created_at').defaultNow(),
