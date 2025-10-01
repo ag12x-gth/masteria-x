@@ -149,7 +149,7 @@ export function ApiKeysManager() {
                     Gerar Nova Chave
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-2xl">
                 <DialogHeader>
                     <DialogTitle>{generatedKey ? 'Chave de API Gerada com Sucesso' : 'Gerar Nova Chave de API'}</DialogTitle>
                     <DialogDescription>
@@ -177,13 +177,22 @@ export function ApiKeysManager() {
                                 </Button>
                             </div>
                         </div>
-                        <div className="space-y-2 text-sm text-muted-foreground">
-                          <p className="font-semibold">Como usar esta chave:</p>
-                          <ul className="list-disc list-inside space-y-1 ml-2">
-                            <li>Adicione no header <code className="bg-muted px-1 py-0.5 rounded">Authorization: Bearer {'{'}sua_chave{'}'}</code></li>
-                            <li>Para Windsurf/VSCode: Configure nas extensões que se conectam à API</li>
-                            <li>Nunca compartilhe sua chave ou a commit em repositórios públicos</li>
-                          </ul>
+                        <div className="space-y-3 text-sm">
+                          <div className="bg-muted p-3 rounded-md">
+                            <p className="font-semibold mb-2">Como usar esta chave:</p>
+                            <ul className="list-disc list-inside space-y-1.5 ml-2 text-muted-foreground">
+                              <li>Adicione no header HTTP: <code className="bg-background px-1.5 py-0.5 rounded text-xs">Authorization: Bearer {'{'}sua_chave{'}'}</code></li>
+                              <li>Para Windsurf/VSCode: Configure nas extensões que se conectam à API</li>
+                              <li>Para scripts/integrações: Use em requisições HTTP com o header acima</li>
+                              <li>Nunca compartilhe sua chave ou a commit em repositórios públicos</li>
+                            </ul>
+                          </div>
+                          <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-md border border-blue-200 dark:border-blue-800">
+                            <p className="font-semibold text-blue-900 dark:text-blue-100 mb-2">Exemplo de uso (curl):</p>
+                            <code className="block text-xs text-blue-800 dark:text-blue-200 font-mono bg-blue-100 dark:bg-blue-900 p-2 rounded overflow-x-auto">
+                              curl -H &quot;Authorization: Bearer {generatedKey.substring(0, 20)}...&quot; https://sua-api.com/api/v1/contacts
+                            </code>
+                          </div>
                         </div>
                     </div>
                 ) : (

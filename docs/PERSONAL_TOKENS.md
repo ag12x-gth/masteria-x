@@ -27,7 +27,23 @@ zap_sk_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Para usar sua personal token em requisições à API, inclua-a no header `Authorization`:
 
 ```bash
+# Exemplo básico com curl
 curl -X GET "https://sua-api.com/api/v1/contacts" \
+  -H "Authorization: Bearer zap_sk_seu_token_aqui" \
+  -H "Content-Type: application/json"
+
+# Criar um novo contato
+curl -X POST "https://sua-api.com/api/v1/contacts" \
+  -H "Authorization: Bearer zap_sk_seu_token_aqui" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "João Silva",
+    "phone": "5511999999999",
+    "email": "joao@example.com"
+  }'
+
+# Listar campanhas
+curl -X GET "https://sua-api.com/api/v1/campaigns" \
   -H "Authorization: Bearer zap_sk_seu_token_aqui"
 ```
 
