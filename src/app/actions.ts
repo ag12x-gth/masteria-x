@@ -13,6 +13,7 @@ import { randomBytes, createHash } from 'crypto';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 import { z } from 'zod';
+import { authenticateApiKey } from '@/lib/api-key-auth';
 
 // ==========================================
 // SESSION / AUTH UTILS
@@ -94,6 +95,17 @@ export async function getUserSession(): Promise<{ user: UserWithCompany | null, 
 
 
 export async function getCompanyIdFromSession(): Promise<string> {
+    // First try API key authentication
+    try {
+        const apiKeyResult = await authenticateApiKey();
+        if (apiKeyResult.user?.companyId) {
+            return apiKeyResult.user.companyId;
+        }
+    } catch (error) {
+        // API key auth failed, try session auth
+    }
+
+    // Fall back to session authentication
     const session = await getUserSession();
     if (session.error || !session.user?.companyId) {
         throw new Error("Não autorizado: ID da empresa não pôde ser obtido da sessão.");

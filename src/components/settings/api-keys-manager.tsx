@@ -137,9 +137,9 @@ export function ApiKeysManager() {
       <Card>
         <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
           <div>
-            <CardTitle>Chaves de API</CardTitle>
+            <CardTitle>Chaves de API / Personal Tokens</CardTitle>
             <CardDescription>
-              Gere e gerencie chaves de API para integrar seus sistemas externos com o Master IA Oficial.
+              Gere e gerencie chaves de API para integrar seus sistemas externos (como Windsurf, VSCode, ou outras ferramentas) com o Master IA Oficial.
             </CardDescription>
           </div>
           <Dialog open={isModalOpen} onOpenChange={(open) => !open && handleCloseGenerateModal()}>
@@ -155,7 +155,7 @@ export function ApiKeysManager() {
                     <DialogDescription>
                         {generatedKey 
                             ? 'Copie a chave de API abaixo. Esta é a única vez que ela será exibida. Guarde-a em um lugar seguro.'
-                            : 'Dê um nome para a sua nova chave para ajudar a identificá-la.'
+                            : 'Dê um nome para a sua nova chave para ajudar a identificá-la (ex: "Windsurf", "Integração CRM").'
                         }
                     </DialogDescription>
                 </DialogHeader>
@@ -176,6 +176,14 @@ export function ApiKeysManager() {
                                     {isCopied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
                                 </Button>
                             </div>
+                        </div>
+                        <div className="space-y-2 text-sm text-muted-foreground">
+                          <p className="font-semibold">Como usar esta chave:</p>
+                          <ul className="list-disc list-inside space-y-1 ml-2">
+                            <li>Adicione no header <code className="bg-muted px-1 py-0.5 rounded">Authorization: Bearer {'{'}sua_chave{'}'}</code></li>
+                            <li>Para Windsurf/VSCode: Configure nas extensões que se conectam à API</li>
+                            <li>Nunca compartilhe sua chave ou a commit em repositórios públicos</li>
+                          </ul>
                         </div>
                     </div>
                 ) : (
