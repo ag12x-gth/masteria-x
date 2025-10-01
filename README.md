@@ -59,7 +59,8 @@ MCP_HTTP_SERVER_URL=http://localhost:3001  # Desenvolvimento local
 
 Para uma documentação técnica completa e detalhada, consulte:
 - **/docs/mvp** - Documentação técnica do MVP
-- **/docs/PERSONAL_TOKENS.md** - Guia de uso de Personal Tokens/Chaves de API para integração com Windsurf e outras ferramentas
+- **/docs/WINDSURF_QUICKSTART.md** - 🚀 **Guia Rápido**: Como configurar Windsurf com Personal Tokens
+- **/docs/PERSONAL_TOKENS.md** - Guia completo de Personal Tokens/Chaves de API
 - **/api.md** - Documentação completa da API
 
 ### 🔑 Personal Tokens (Chaves de API)
@@ -67,7 +68,9 @@ Para uma documentação técnica completa e detalhada, consulte:
 O sistema suporta autenticação via Personal Tokens para integração com ferramentas externas como Windsurf, VSCode, e outros sistemas:
 
 1. Acesse **Gestão da Empresa** > **API** no painel
-2. Gere uma nova chave com um nome descritivo
+2. Gere uma nova chave com um nome descritivo (ex: "Windsurf")
 3. Use a chave no header `Authorization: Bearer sua_chave`
 
-Consulte [docs/PERSONAL_TOKENS.md](./docs/PERSONAL_TOKENS.md) para instruções detalhadas.
+**Guias disponíveis**:
+- 🚀 [Configuração Rápida do Windsurf](./docs/WINDSURF_QUICKSTART.md) - Comece aqui!
+- 📖 [Guia Completo de Personal Tokens](./docs/PERSONAL_TOKENS.md) - Referência completa
