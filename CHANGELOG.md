@@ -4,6 +4,34 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto adhere ao [Versionamento Semântico](https://semver.org/spec/v2.0.0.html).
 
+## [Não Lançado]
+### Adicionado
+- **Personal Tokens (Chaves de API):** Sistema completo de autenticação via API keys para integração com ferramentas externas como Windsurf, VSCode e outros sistemas.
+  - Geração de chaves de API através da interface web em **Gestão da Empresa** > **API**
+  - Autenticação via header `Authorization: Bearer {chave}` em todos os endpoints da API
+  - Fallback automático para autenticação por sessão (cookies JWT) quando não há API key
+  - Interface aprimorada com exemplos de uso e instruções inline
+  - Sistema de revogação de chaves imediata
+  
+- **Documentação Completa:**
+  - `docs/WINDSURF_QUICKSTART.md` - Guia rápido de integração com Windsurf
+  - `docs/PERSONAL_TOKENS.md` - Guia completo de uso de Personal Tokens
+  - `docs/AUTH_FLOW.md` - Documentação técnica do fluxo de autenticação
+  - Exemplos de código em Python, JavaScript, cURL e mais
+  - Boas práticas de segurança e solução de problemas
+  
+- **Script de Teste:** `scripts/test-api-key-auth.js` para validar o funcionamento da autenticação
+
+### Modificado
+- **Autenticação da API:** `getCompanyIdFromSession()` agora suporta tanto session cookies quanto API keys
+- **Interface de Gerenciamento:** Componente `ApiKeysManager` aprimorado com:
+  - Instruções de uso inline
+  - Exemplos de código curl
+  - Melhor feedback visual ao copiar chaves
+  - Suporte para máscarar/exibir chaves
+  
+- **README.md:** Adicionada seção destacando o sistema de Personal Tokens com links para guias
+
 ## [2.4.1] - 2025-01-07
 ### Corrigido
 - **URLs de Agentes de IA:** Corrigida a estrutura de URLs da seção de Agentes de IA, alterando de `/ia` para `/agentes-ia` para melhor clareza e organização.
