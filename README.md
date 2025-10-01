@@ -55,6 +55,28 @@ MCP_HTTP_SERVER_URL=http://localhost:3001  # Desenvolvimento local
 - `npm run build:full` - Build completo (Next.js + MCP)
 - `npm run start:full` - Produção completa (Next.js + MCP)
 
+## API e Integração com IDEs
+
+### Tokens de Acesso Pessoal
+
+O Master IA Oficial suporta autenticação via **Personal Access Tokens (PAT)** para integração com IDEs como Windsurf, VS Code e outras ferramentas externas.
+
+#### Como criar um token pessoal:
+
+1. Aceda à página **Gestão da Empresa** → Aba **API**
+2. Clique em **Gerar Nova Chave**
+3. Marque a opção **"Token pessoal"** para criar um token associado ao seu utilizador
+4. Copie o token gerado (será exibido apenas uma vez!)
+
+#### Usar o token:
+
+```bash
+curl -H "Authorization: Bearer zap_sk_your_token_here" \
+     https://master.sendzap-ia.com/api/v1/contacts
+```
+
+Para documentação completa sobre tokens de acesso pessoal, consulte [docs/PERSONAL_ACCESS_TOKENS.md](docs/PERSONAL_ACCESS_TOKENS.md).
+
 ## Documentação
 
 Para uma documentação técnica completa e detalhada, consulte a pasta **/docs/mvp**.
